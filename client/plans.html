@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stripe Payment Page Recipe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A demo of Stripe Billing" />
+
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/script.js" defer></script>
+  </head>
+
+  <body>
+    <div class="sr-root">
+      <div class="sr-main">
+        <header class="sr-header">
+          <div class="sr-header__logo"></div>
+        </header>
+        <div class="sr-payment-summary payment-view">
+          <h1 class="order-amount">Subscribe to a plan</h1>
+        </div>
+
+        <div class="sr-plans">
+          <div class="sr-plan">
+            <div class="sr-plan-inner">
+              <h1 class="sr-plan-name">Basic</h1>
+              <h1 class="order-amount">$5.99</h1>
+              <div class="sr-plan-text">Per user, per month billed monthly</div>
+              <button id="submit" onClick="createSubscription('basic')">
+                <div class="hidden" id="spinner"></div>
+                <span id="button-text">Subscribe to basic</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="sr-plan">
+            <div class="sr-plan-inner">
+              <h1 class="sr-plan-name">Premium</h1>
+              <h1 class="order-amount">$12.90</h1>
+              <div class="sr-plan-text">Per user, per month billed monthly</div>
+              <button id="submit" onClick="createSubscription('premium')">
+                <div class="hidden" id="spinner"></div>
+                <span id="button-text">Subscribe to premium</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-payment-summary hidden completed-view">
+          <h1>Your subscription is <span class="order-status"></span></h1>
+          <h4>
+            <a>View subscription response:</a>
+          </h4>
+        </div>
+        <div class="sr-section hidden completed-view">
+          <div class="sr-callout">
+            <pre></pre>
+          </div>
+          <button onclick="window.location.href='/'">Restart demo</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
