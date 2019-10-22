@@ -4,13 +4,13 @@ This workshop is designed to get developers started on Stripe Billing. During th
 
   
 
-Pre-requesites: 
-If you don’t have one, [create a Stripe account](https://dashboard.stripe.com/register)
-Clone this repo 
+## Pre-requesites: 
+1. If you don’t have one, [create a Stripe account](https://dashboard.stripe.com/register)
+2. Clone this repo 
 ```
 git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 ```
-[optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
+3. [optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
 
 
 ## Features to build:
