@@ -1,13 +1,16 @@
-# Stripe Billing charging for subscriptions
+# Developer Workshop - Stripe Billing creating subsciptions
 
-This sample shows how to create a customer and subscribe them to a flat rate single plan with
-[Stripe Billing](https://stripe.com/billing). For step by step directions of how to
-implement this use the [Stripe Billing quickstart](https://stripe.com/docs/billing/quickstart).
+This workshop is designed to get developers started on Stripe Billing. During the workshop, we’ll build a sample web application, create a flat-rate subscription, and setup payment details for recurring billing.  
 
-See a hosted version of the [demo](https://lbq6y.sse.codesandbox.io/) in test mode or fork on [codesandbox.io](https://codesandbox.io/s/stripe-billing-quickstart-demo-lbq6y)
-<img src="billing-subscriptions-quickstart.gif" alt="Preview of recipe" align="center">
+We’ll run and serve the application at: http://localhost:4242.  
 
-Features:
+Pre-requesites: 
+If you don’t have one, create and activate a Stripe account  
+Clone this repo 
+[optional] Install the Stripe CLI 
+
+
+Features to build:
 
 - Collect card details 💳
 - Save a card to a customer
@@ -33,7 +36,7 @@ A: We chose the most minimal framework to convey the key Stripe calls and concep
 
 Q: Can you show me how to build X?
 
-A: We are always looking for new recipe ideas, please email tbd@stripe.com with your suggestion!
+A: We are always looking for new sample ideas, please email dev-samples@stripe.com with your suggestion!
 
 ## Author(s)
 
