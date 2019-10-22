@@ -10,8 +10,9 @@ This workshop is designed to get developers started on Stripe Billing. During th
 ```
 git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 ```
-3. [optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
-
+3. Copy the environment variables file from the root of the repository: `cp .env.example .env`
+4. Get your public and secret **test** keys from the [Dashboard](https://dashboard.stripe.com/account/apikeys) and put them in the newly created `.env` file.
+5. [optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
 
 ## Features to build:
 
