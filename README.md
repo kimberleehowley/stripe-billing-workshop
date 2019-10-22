@@ -39,15 +39,9 @@ cp .env.example .env
 
 You will need a Stripe account with its own set of [API keys](https://stripe.com/docs/development#api-keys).
 
-## FAQ
+## Feedback
 
-Q: Why did you pick these frameworks?
-
-A: We chose the most minimal framework to convey the key Stripe calls and concepts you need to understand. These demos are meant as an educational tool that helps you roadmap how to integrate Stripe within your own system independent of the framework.
-
-Q: Can you show me how to build X?
-
-A: We are always looking for new sample ideas, please email Developer Relations dev-relations@stripe.com with your suggestion!
+Please send us your feedback on the workshop, email Developer Relations dev-relations@stripe.com with your suggestion.
 
 ## Author(s)
 
