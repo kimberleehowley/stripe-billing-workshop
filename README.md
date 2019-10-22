@@ -4,7 +4,7 @@ This workshop is designed to get developers started on Stripe Billing. During th
 
   
 
-## Pre-requesites: 
+## Pre-requisites: 
 1. If you don’t have one, [create a Stripe account](https://dashboard.stripe.com/register)
 2. Clone this repo 
 ```
