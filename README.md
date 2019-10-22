@@ -47,7 +47,7 @@ A: We chose the most minimal framework to convey the key Stripe calls and concep
 
 Q: Can you show me how to build X?
 
-A: We are always looking for new sample ideas, please email dev-samples@stripe.com with your suggestion!
+A: We are always looking for new sample ideas, please email Developer Relations dev-relations@stripe.com with your suggestion!
 
 ## Author(s)
 
