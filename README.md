@@ -1,4 +1,4 @@
-# Developer Workshop - Stripe Billing creating subsciptions
+# Stripe Billing Workshop creating subsciptions
 
 This workshop is designed to get developers started on Stripe Billing. During the workshop, we’ll build a sample web application, create a flat-rate subscription, and setup payment details for recurring billing.  
 
