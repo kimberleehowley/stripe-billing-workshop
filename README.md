@@ -17,7 +17,7 @@ git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 
 - Step 1: [Create a product and plan](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-product-plan)
 - Step 2: [Set up Stripe](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup)
-- Step 3[Collect card details 💳](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#one-time)
+- Step 3: [Collect card details 💳](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#one-time)
 - Step 4: [Create a payment method](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#payment-method)
 - Step 5: [Create a customer with a PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 - Step 6: [Create the subscription](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
