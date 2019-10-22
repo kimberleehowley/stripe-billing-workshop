@@ -15,6 +15,8 @@ git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 5. Open the [creating subscriptions guide](https://stripe.com/docs/billing/subscriptions/creating-subscriptions) that this workshop follows 
 6. [optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
 
+Use Stripe [test cards](https://stripe.com/docs/testing) to test your integration.
+
 ## Features to build:
 
 - Step 1: [Create a product and plan](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-product-plan)
