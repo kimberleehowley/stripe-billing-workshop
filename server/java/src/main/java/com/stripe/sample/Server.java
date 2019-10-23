@@ -68,15 +68,15 @@ public class Server {
         // that returns the customer object
         // the client will pass in
         // { payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
-        // [Create a customer with a
-        // PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
+        // [Create a customer with a PaymentMethod]
+        // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 
         // Step 6 implement a `create-subscription` POST API
         // that returns a created subscription object
         // the client will pass in
         // { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
         // [Create the subscription]
-        // (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
+        // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription
 
         post("/subscription", (request, response) -> {
             response.type("application/json");
