@@ -2,7 +2,7 @@
 
 This workshop is designed to get developers started on Stripe Billing. During the workshop, we’ll build a sample web application, create a flat-rate subscription, and setup payment details for recurring billing.  
 
-  
+If you are looking for an overview of the workshop, check the [slides here](https://github.com/ctrudeau-stripe/stripe-billing-workshop/blob/workshop-answers/Developer%20Workshop%20-%20Stripe%20Billing.pdf)
 
 ## Pre-requisites: 
 1. If you don’t have one, [create a Stripe account](https://dashboard.stripe.com/register)
@@ -12,7 +12,10 @@ git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 ```
 3. Copy the environment variables file from the root of the repository: `cp .env.example .env`
 4. Get your public and secret **test** keys from the [Dashboard](https://dashboard.stripe.com/account/apikeys) and put them in the newly created `.env` file.
-5. [optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
+5. Open the [creating subscriptions guide](https://stripe.com/docs/billing/subscriptions/creating-subscriptions) that this workshop follows 
+6. [optional] [Install the Stripe CLI to support webhooks](https://stripe.com/docs/stripe-cli)
+
+Use Stripe [test cards](https://stripe.com/docs/testing) to test your integration.
 
 ## Features to build:
 
@@ -23,6 +26,8 @@ git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 - Step 5: [Create a customer with a PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 - Step 6: [Create the subscription](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 - Step 7: [Manage subscription status](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#manage-sub-status)
+
+### If you get stuck you can find a fully implemented server on the [workshop answers branch](https://github.com/ctrudeau-stripe/stripe-billing-workshop/tree/workshop-answers)
 
 ## How to run locally
 
@@ -38,15 +43,9 @@ cp .env.example .env
 
 You will need a Stripe account with its own set of [API keys](https://stripe.com/docs/development#api-keys).
 
-## FAQ
+## Feedback
 
-Q: Why did you pick these frameworks?
-
-A: We chose the most minimal framework to convey the key Stripe calls and concepts you need to understand. These demos are meant as an educational tool that helps you roadmap how to integrate Stripe within your own system independent of the framework.
-
-Q: Can you show me how to build X?
-
-A: We are always looking for new sample ideas, please email dev-samples@stripe.com with your suggestion!
+Please send us your feedback on the workshop, email Developer Relations dev-relations@stripe.com with your suggestion.
 
 ## Author(s)
 

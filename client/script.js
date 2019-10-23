@@ -54,6 +54,7 @@ function handlePaymentMethodError(error) {
 
 var createCustomerAndPaymentMethod = function(stripe, card) {
   // Step #4 Create payment method
+  changeLoadingState(true);
   var cardholderEmail = document.querySelector('#email').value;
   stripe
     .createPaymentMethod('card', card, {
@@ -122,27 +123,34 @@ function createSubscription(planId) {
 function handleSubscription(subscription) {
   // Step #7
   // add confirmSubscription(subscription.id)
+  // confirmSubscription retreives the latest subscription
+  // and returns it to view after 3DS secure has been handled
   // else orderComplete(subscription)
-  orderComplete(subscription);
-  // const { latest_invoice } = subscription;
-  // const { payment_intent } = latest_invoice;
+  // completes the current subscription
 
-  // if (payment_intent) {
-  //   const { client_secret, status } = payment_intent;
+  const { latest_invoice } = subscription;
+  const { payment_intent } = latest_invoice;
+  if (payment_intent) {
+    const { client_secret, status } = payment_intent;
 
-  //   if (status === 'requires_action') {
-  //     stripe.handleCardPayment(client_secret).then(function(result) {
-  //       if (result.error) {
-  //         // Display error.message in your UI.
-  //       } else {
-  //         // The setup has succeeded. Display a success message.
-  //         confirmSubscription(subscription.id);
-  //       }
-  //     });
-  //   }
-  // } else {
-  //   orderComplete(subscription);
-  // }
+    if (status === 'requires_action') {
+      stripe.handleCardPayment(client_secret).then(function(result) {
+        if (result.error) {
+          // Display error message in your UI.
+          // The card was declined (i.e. insufficient funds, card has expired, etc)
+        } else {
+          // Show a success message to your customer
+          confirmSubscription(subscription.id);
+        }
+      });
+    } else {
+      // No additional information was needed
+      // Show a success message to your customer
+      orderComplete(subscription);
+    }
+  } else {
+    orderComplete(subscription);
+  }
 }
 
 function confirmSubscription(subscriptionId) {
@@ -186,7 +194,7 @@ getPublicKey();
 var orderComplete = function(subscription) {
   changeLoadingState(false);
   var subscriptionJson = JSON.stringify(subscription, null, 2);
-  document.querySelectorAll('.payment-view').forEach(function(view) {
+  document.querySelectorAll('.sr-main').forEach(function(view) {
     view.classList.add('hidden');
   });
   document.querySelectorAll('.completed-view').forEach(function(view) {
