@@ -273,6 +273,7 @@ button:active {
 }
 button:disabled {
   opacity: 0.5;
+  width: 200px;
   cursor: none;
 }
 
@@ -308,6 +309,8 @@ code,
 pre {
   font-family: 'SF Mono', 'IBM Plex Mono', 'Menlo', monospace;
   font-size: 14px;
+  overflow-x: auto;
+  white-space: pre-wrap;
 }
 
 /* Stripe Element placeholder */

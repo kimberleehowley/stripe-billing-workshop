@@ -17,7 +17,6 @@ import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Customer;
 import com.stripe.model.Event;
 import com.stripe.model.EventDataObjectDeserializer;
-import com.stripe.model.Invoice;
 import com.stripe.model.StripeObject;
 import com.stripe.model.Subscription;
 import com.stripe.net.Webhook;
@@ -51,12 +50,27 @@ public class Server {
         }
     }
 
+    static class CreateCustomerBody {
+        @SerializedName("customerId")
+        String customerId;
+        @SerializedName("planId")
+        String planId;
+
+        public String getCustomerId() {
+            return customerId;
+        }
+
+        public String getPlanId() {
+            return planId;
+        }
+    }
+
     public static void main(String[] args) {
         port(4242);
         String ENV_PATH = "../../";
         Dotenv dotenv = Dotenv.configure().directory(ENV_PATH).load();
 
-        Stripe.apiKey = System.getenv("STRIPE_SECRET_KEY");
+        Stripe.apiKey = dotenv.get("STRIPE_SECRET_KEY");
 
         staticFiles.externalLocation(
                 Paths.get(Paths.get("").toAbsolutePath().toString(), dotenv.get("STATIC_DIR")).normalize().toString());
@@ -82,18 +96,27 @@ public class Server {
 
             Customer customer = Customer.create(customerParams);
 
+            return customer.toJson();
+        });
+
+        post("/create-subscription", (request, response) -> {
+            response.type("application/json");
+
+            CreateCustomerBody postBody = gson.fromJson(request.body(), CreateCustomerBody.class);
+
             // Subscribe customer to a plan
             Map<String, Object> item = new HashMap<>();
-            item.put("plan", dotenv.get("SUBSCRIPTION_PLAN_ID"));
+            item.put("plan", postBody.getPlanId());
             Map<String, Object> items = new HashMap<>();
             items.put("0", item);
 
             Map<String, Object> expand = new HashMap<>();
             expand.put("0", "latest_invoice.payment_intent");
             Map<String, Object> params = new HashMap<>();
-            params.put("customer", customer.getId());
+            params.put("customer", postBody.getCustomerId());
             params.put("items", items);
             params.put("expand", expand);
+
             Subscription subscription = Subscription.create(params);
 
             return subscription.toJson();

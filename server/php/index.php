@@ -40,7 +40,6 @@ $app->get('/public-key', function (Request $request, Response $response, array $
 });
 
 $app->post('/create-customer', function (Request $request, Response $response, array $args) {  
-  $plan_id = getenv('SUBSCRIPTION_PLAN_ID');
   $body = json_decode($request->getBody());
   
   # This creates a new Customer and attaches the PaymentMethod in one API call.
@@ -54,19 +53,26 @@ $app->post('/create-customer', function (Request $request, Response $response, a
     ]
   ]);
 
+  return $response->withJson($customer);
+});
+
+$app->post('/create-subscription', function (Request $request, Response $response, array $args) {  
+  $body = json_decode($request->getBody());
+  
   $subscription = \Stripe\Subscription::create([
-    "customer" => $customer['id'],
+    "customer" => $body->customerId,
     "items" => [
       [
-        "plan" => $plan_id,
+        "plan" => $body->planId,
       ],
     ], 
     "expand" => ['latest_invoice.payment_intent']
   ]);
 
-
   return $response->withJson($subscription);
 });
+
+
 
 $app->post('/subscription', function (Request $request, Response $response, array $args) {  
   $body = json_decode($request->getBody());

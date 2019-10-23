@@ -13,13 +13,15 @@ import os
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 
-static_dir = f'{os.path.abspath(os.path.join(__file__ ,"../../../client"))}'
-app = Flask(__name__, static_folder=static_dir, static_url_path="", template_folder=static_dir)
-
 # Setup Stripe python client library
 load_dotenv(find_dotenv())
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 stripe.api_version = os.getenv('STRIPE_API_VERSION')
+
+static_dir = str(os.path.abspath(os.path.join(
+    __file__, "..", os.getenv("STATIC_DIR"))))
+app = Flask(__name__, static_folder=static_dir,
+            static_url_path="", template_folder=static_dir)
 
 @app.route('/', methods=['GET'])
 def get_index():
@@ -34,7 +36,7 @@ def create_customer():
     # Reads application/json and returns a response
     data = json.loads(request.data)
     paymentMethod = data['payment_method']
-    print(paymentMethod)
+
     try:
         # This creates a new Customer and attaches the PaymentMethod in one API call.
         customer = stripe.Customer.create(
@@ -46,14 +48,22 @@ def create_customer():
         )
         # At this point, associate the ID of the Customer object with your
         # own internal representation of a customer, if you have one.
-        print(customer)
+        return jsonify(customer)
+    except Exception as e:
+        return jsonify(e), 403
 
+@app.route('/create-subscription', methods=['POST'])
+def create_subscription():
+    # Reads application/json and returns a response
+    data = json.loads(request.data)
+    
+    try:
         # Subscribe the user to the subscription created
         subscription = stripe.Subscription.create(
-            customer=customer.id,
+            customer=data["customerId"],
             items=[
                 {
-                    "plan": os.getenv("SUBSCRIPTION_PLAN_ID"),
+                    "plan": data["planId"],
                 },
             ],
             expand=["latest_invoice.payment_intent"]
@@ -97,28 +107,28 @@ def webhook_received():
     data_object = data['object']
     
     if event_type == 'customer.created':
-        # print(data)
+        print(data)
 
     if event_type == 'customer.updated':
-        # print(data)
+        print(data)
 
     if event_type == 'invoice.upcoming':
-        # print(data)
+        print(data)
 
     if event_type == 'invoice.created':
-        # print(data)
+        print(data)
 
     if event_type == 'invoice.finalized':
-        # print(data)
+        print(data)
 
     if event_type == 'invoice.payment_succeeded':
-        # print(data)
+        print(data)
 
     if event_type == 'invoice.payment_failed':
-        # print(data)
+        print(data)
 
     if event_type == 'customer.subscription.created':
-        # print(data)
+        print(data)
 
     return jsonify({'status': 'success'})
 

@@ -15,7 +15,7 @@ mvn package
 2. Run the application
 
 ```
-java -cp target/billing-subscription-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.stripe.sample.Server
+java -cp target/creating-subscriptions-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.stripe.sample.Server
 ```
 
 3. Go to `localhost:4242` in your browser to see the demo

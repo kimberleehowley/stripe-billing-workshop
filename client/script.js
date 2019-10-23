@@ -42,6 +42,16 @@ var stripeElements = function(publicKey) {
   });
 };
 
+function handlePaymentMethodError(error) {
+  document.querySelector('#submit').disabled = false;
+  // The card was declined (i.e. insufficient funds, card has expired, etc)
+  var errorMsg = document.querySelector('.sr-field-error');
+  errorMsg.textContent = result.error.message;
+  setTimeout(function() {
+    errorMsg.textContent = '';
+  }, 4000);
+}
+
 var createCustomerAndPaymentMethod = function(stripe, card) {
   // Step #4 Create payment method
   var cardholderEmail = document.querySelector('#email').value;
@@ -53,13 +63,7 @@ var createCustomerAndPaymentMethod = function(stripe, card) {
     })
     .then(function(result) {
       if (result.error) {
-        document.querySelector('#submit').disabled = false;
-        // The card was declined (i.e. insufficient funds, card has expired, etc)
-        var errorMsg = document.querySelector('.sr-field-error');
-        errorMsg.textContent = result.error.message;
-        setTimeout(function() {
-          errorMsg.textContent = '';
-        }, 4000);
+        handlePaymentMethodError(result);
       } else {
         createCustomer(result.paymentMethod.id, cardholderEmail);
       }
@@ -113,21 +117,32 @@ function createSubscription(planId) {
 }
 
 // Step #7 Handle subscription status
+// then confirmSubscription(subscription.id)
+// else orderComplete(subscription)
 function handleSubscription(subscription) {
-  if (
-    subscription &&
-    subscription.latest_invoice.payment_intent.status === 'requires_action'
-  ) {
-    stripe
-      .handleCardPayment(
-        subscription.latest_invoice.payment_intent.client_secret
-      )
-      .then(function(result) {
-        confirmSubscription(subscription.id);
-      });
-  } else {
-    orderComplete(subscription);
-  }
+  // Step #7
+  // add confirmSubscription(subscription.id)
+  // else orderComplete(subscription)
+  orderComplete(subscription);
+  // const { latest_invoice } = subscription;
+  // const { payment_intent } = latest_invoice;
+
+  // if (payment_intent) {
+  //   const { client_secret, status } = payment_intent;
+
+  //   if (status === 'requires_action') {
+  //     stripe.handleCardPayment(client_secret).then(function(result) {
+  //       if (result.error) {
+  //         // Display error.message in your UI.
+  //       } else {
+  //         // The setup has succeeded. Display a success message.
+  //         confirmSubscription(subscription.id);
+  //       }
+  //     });
+  //   }
+  // } else {
+  //   orderComplete(subscription);
+  // }
 }
 
 function confirmSubscription(subscriptionId) {

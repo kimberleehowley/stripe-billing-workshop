@@ -2,11 +2,14 @@ require 'stripe'
 require 'sinatra'
 require 'dotenv'
 
-Dotenv.load(File.dirname(__FILE__) + '/../../.env')
+# Replace if using a different env file or config
+ENV_PATH = '/../../.env'.freeze
+Dotenv.load(File.dirname(__FILE__) + ENV_PATH)
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
+
 set :static, true
-set :public_folder, File.join(File.dirname(__FILE__), '../../client/')
+set :public_folder, File.join(File.dirname(__FILE__), ENV['STATIC_DIR'])
 set :port, 4242
 
 get '/' do
@@ -36,12 +39,22 @@ post '/create-customer' do
       default_payment_method: data['payment_method']
     }
   )
+  customer.to_json
+end
 
+
+# Step #6 implement a create-subscription POST API
+# that returns a created subscription object
+# the client will pass in
+# { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+post '/create-subscription' do
+  content_type 'application/json'
+  data = JSON.parse request.body.read
   subscription = Stripe::Subscription.create(
-    customer: customer.id,
+    customer: data['customerId'],
     items: [
       {
-        plan: ENV['SUBSCRIPTION_PLAN_ID']
+        plan: data['planId']
       }
     ],
     expand: ['latest_invoice.payment_intent']
