@@ -120,7 +120,7 @@ function createSubscription(planId) {
     });
 }
 
-// Step #7 Handle subscription status
+// Step 7 Handle subscription status
 // use confirmSubscription(subscription.id) once the subscription is handled
 // otherwise call orderComplete(subscription) to display the subscription result
 // [Manage subscription status]
