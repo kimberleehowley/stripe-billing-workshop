@@ -17,7 +17,7 @@ git clone git@github.com:ctrudeau-stripe/stripe-billing-workshop.git
 
 Use Stripe [test cards](https://stripe.com/docs/testing) to test your integration.
 
-## Features to build:
+## Objectives
 
 - Step 1: [Create a product and plan](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-product-plan)
 - Step 2: [Set up Stripe](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup)
@@ -42,6 +42,22 @@ cp .env.example .env
 ```
 
 You will need a Stripe account with its own set of [API keys](https://stripe.com/docs/development#api-keys).
+
+### Testing
+
+You can copy and paste the following test card numbers to trigger different scenarios:
+
+| Test case               | card number      |
+| ----------------------- | ---------------- |
+| Default US card         | 4242424242424242 |
+| Default SG card         | 4000007020000003 |
+| 3D Secure auth required | 4000000000003063 |
+
+**Note**: With test cards you can use any date in the future and any three digit CVC.
+
+See the [docs](https://stripe.com/docs/testing#cards) for a full list of test cards. Non-card payments will redirect to test pages.
+
+🚀 Happy hacking 🎉
 
 ## Feedback
 
