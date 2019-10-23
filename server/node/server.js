@@ -53,6 +53,9 @@ app.post('/create-subscription', async (req, res) => {
     customer: req.body.customerId,
     items: [{ plan: req.body.planId }],
     expand: ['latest_invoice.payment_intent']
+    // If you want to use trails uncomment these lines below and remove the one above.
+    // expand: ['latest_invoice.payment_intent', 'pending_setup_intent']
+    // trial_end: 1572159600
   });
 
   res.send(subscription);

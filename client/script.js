@@ -128,10 +128,22 @@ function handleSubscription(subscription) {
   // and returns it to view after 3DS secure has been handled
   // else orderComplete(subscription)
   // completes the current subscription
-
-  const { latest_invoice } = subscription;
+  // if you have a trial, a pending_setup_intent will be present
+  const { latest_invoice, pending_setup_intent } = subscription;
   const { payment_intent } = latest_invoice;
-  if (payment_intent) {
+  if (pending_setup_intent) {
+    const { client_secret, status } = subscription.pending_setup_intent;
+
+    if (status === 'requires_action') {
+      stripe.handleCardSetup(client_secret).then(function(result) {
+        if (result.error) {
+          // Display error.message in your UI.
+        } else {
+          confirmSubscription(subscription.id);
+        }
+      });
+    }
+  } else if (payment_intent) {
     const { client_secret, status } = payment_intent;
 
     if (status === 'requires_action') {
