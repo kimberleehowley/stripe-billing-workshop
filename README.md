@@ -27,6 +27,8 @@ Use Stripe [test cards](https://stripe.com/docs/testing) to test your integratio
 - Step 6: [Create the subscription](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 - Step 7: [Manage subscription status](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#manage-sub-status)
 
+If you get stuck you can find a fully implemented server on the [workshop answers branch](https://github.com/ctrudeau-stripe/stripe-billing-workshop/tree/workshop-answers)
+
 ## How to run locally
 
 We’ll run and serve the application at: http://localhost:4242.
