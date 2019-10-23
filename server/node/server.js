@@ -31,19 +31,36 @@ app.get('/public-key', (req, res) => {
 });
 
 // Step #5 implement a create-customer POST API
+// that returns the customer object
+// the client will pass in
+// { payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
 app.post('/create-customer', async (req, res) => {
   // Add Step # 5 code here
+  const customer = await stripe.customers.create({
+    payment_method: req.body.payment_method,
+    email: req.body.email,
+    invoice_settings: {
+      default_payment_method: req.body.payment_method
+    }
+  });
+
   res.send(customer);
 });
 
 // Step #6 implement a create-subscription POST API
+// that returns a created subscription object
+// the client will pass in
+// { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
 app.post('/create-subscription', async (req, res) => {
-  // ADd Step # 6 code here
+  const subscription = await stripe.subscriptions.create({
+    customer: req.body.customerId,
+    items: [{ plan: req.body.planId }],
+    expand: ['latest_invoice.payment_intent']
+  });
 
   res.send(subscription);
 });
 
-// Retrive subscription with the subscription ID
 app.post('/subscription', async (req, res) => {
   let subscription = await stripe.subscriptions.retrieve(
     req.body.subscriptionId

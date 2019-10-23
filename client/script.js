@@ -44,6 +44,7 @@ var stripeElements = function(publicKey) {
 
 var createCustomerAndPaymentMethod = function(stripe, card) {
   // Step #4 Create payment method
+  changeLoadingState(true);
   var cardholderEmail = document.querySelector('#email').value;
   stripe
     .createPaymentMethod('card', card, {
@@ -114,17 +115,41 @@ function createSubscription(planId) {
 
 // Step #7 Handle subscription status
 function handleSubscription(subscription) {
-  if (
-    subscription &&
-    subscription.latest_invoice.payment_intent.status === 'requires_action'
-  ) {
-    stripe
-      .handleCardPayment(
-        subscription.latest_invoice.payment_intent.client_secret
-      )
-      .then(function(result) {
-        confirmSubscription(subscription.id);
+  // if (
+  //   subscription &&
+  //   subscription.latest_invoice.payment_intent.status === 'requires_action'
+  // ) {
+  //   stripe
+  //     .handleCardPayment(
+  //       subscription.latest_invoice.payment_intent.client_secret
+  //     )
+  //     .then(function(result) {
+  //       confirmSubscription(subscription.id);
+  //     });
+  // } else {
+  //   orderComplete(subscription);
+  // }
+
+  const { latest_invoice } = subscription;
+  const { payment_intent } = latest_invoice;
+  if (payment_intent) {
+    const { client_secret, status } = payment_intent;
+
+    if (status === 'requires_action') {
+      stripe.handleCardPayment(client_secret).then(function(result) {
+        if (result.error) {
+          // Display error message in your UI.
+          // The card was declined (i.e. insufficient funds, card has expired, etc)
+        } else {
+          // Show a success message to your customer
+          confirmSubscription(subscription.id);
+        }
       });
+    } else {
+      // No additional information was needed
+      // Show a success message to your customer
+      orderComplete(subscription);
+    }
   } else {
     orderComplete(subscription);
   }
@@ -171,7 +196,7 @@ getPublicKey();
 var orderComplete = function(subscription) {
   changeLoadingState(false);
   var subscriptionJson = JSON.stringify(subscription, null, 2);
-  document.querySelectorAll('.payment-view').forEach(function(view) {
+  document.querySelectorAll('.sr-main').forEach(function(view) {
     view.classList.add('hidden');
   });
   document.querySelectorAll('.completed-view').forEach(function(view) {
