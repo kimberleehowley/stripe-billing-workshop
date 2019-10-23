@@ -52,13 +52,13 @@ A: We are always looking for new sample ideas, please email dev-samples@stripe.c
 
 Now that you’ve learned the basics, see what else you can do with the Stripe Billing API. 
 
-Upgrading and Downgrading Plans: https://stripe.com/docs/billing/subscriptions/upgrading-downgrading  
-Using Trial Periods on Subscriptions: https://stripe.com/docs/billing/subscriptions/trials  
-Applying Discounts to Subscriptions: https://stripe.com/docs/billing/subscriptions/discounts 
-Setting the Subscription Billing Cycle Date: https://stripe.com/docs/billing/subscriptions/billing-cycle 
-Using Webhooks with Subscriptions: https://stripe.com/docs/billing/webhooks 
-Testing Stripe Billing: https://stripe.com/docs/billing/testing  
-Stripe Samples: https://github.com/stripe-samples 
+- [Upgrading and Downgrading Plans](https://stripe.com/docs/billing/subscriptions/upgrading-downgrading)
+- [Using Trial Periods on Subscriptions](https://stripe.com/docs/billing/subscriptions/trials)
+- [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts)
+- [Setting the Subscription Billing Cycle Date](https://stripe.com/docs/billing/subscriptions/billing-cycle)
+- [Using Webhooks with Subscriptions](https://stripe.com/docs/billing/webhooks)
+- [Testing Stripe Billing](https://stripe.com/docs/billing/testing)
+- [Stripe Samples](https://github.com/stripe-samples)
 
 ## Author(s)
 
