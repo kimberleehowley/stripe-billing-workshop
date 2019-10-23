@@ -1,5 +1,8 @@
 var stripe;
 
+// Step 3
+// [Collect card details 💳]
+// (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#one-time)
 var stripeElements = function(publicKey) {
   // Step #3 Collect card details
   stripe = Stripe(publicKey);
@@ -43,7 +46,9 @@ var stripeElements = function(publicKey) {
 };
 
 var createCustomerAndPaymentMethod = function(stripe, card) {
-  // Step #4 Create payment method
+  // Step 4
+  // [Create a payment method]
+  // (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#payment-method)
   changeLoadingState(true);
   var cardholderEmail = document.querySelector('#email').value;
   stripe
@@ -70,7 +75,9 @@ var createCustomerAndPaymentMethod = function(stripe, card) {
     });
 };
 
-// Step #5 Create a customer with the payment method
+// Step 5:
+// [Create a customer with a PaymentMethod]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 function createCustomer(paymentMethod, cardholderEmail) {
   return fetch('/create-customer', {
     method: 'post',
@@ -114,22 +121,11 @@ function createSubscription(planId) {
 }
 
 // Step #7 Handle subscription status
+// use confirmSubscription(subscription.id) once the subscription is handled
+// otherwise call orderComplete(subscription) to display the subscription result
+// [Manage subscription status]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#manage-sub-status
 function handleSubscription(subscription) {
-  // if (
-  //   subscription &&
-  //   subscription.latest_invoice.payment_intent.status === 'requires_action'
-  // ) {
-  //   stripe
-  //     .handleCardPayment(
-  //       subscription.latest_invoice.payment_intent.client_secret
-  //     )
-  //     .then(function(result) {
-  //       confirmSubscription(subscription.id);
-  //     });
-  // } else {
-  //   orderComplete(subscription);
-  // }
-
   const { latest_invoice } = subscription;
   const { payment_intent } = latest_invoice;
   if (payment_intent) {

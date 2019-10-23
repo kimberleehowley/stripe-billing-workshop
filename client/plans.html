@@ -28,7 +28,12 @@
               <h1 class="sr-plan-name">Basic</h1>
               <h1 class="order-amount">$5.99</h1>
               <div class="sr-plan-text">Per user, per month billed monthly</div>
-              <button id="submit" onClick="createSubscription('basic')">
+              <!-- Step 1 -->
+              <!-- [Create a product and plan](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-product-plan) -->
+              <button
+                id="submit"
+                onClick="createSubscription('REPLACE_THIS_STRING_WITH_PLAN_ID')"
+              >
                 <div class="hidden" id="spinner"></div>
                 <span id="button-text">Subscribe to basic</span>
               </button>
@@ -40,7 +45,10 @@
               <h1 class="sr-plan-name">Premium</h1>
               <h1 class="order-amount">$12.90</h1>
               <div class="sr-plan-text">Per user, per month billed monthly</div>
-              <button id="submit" onClick="createSubscription('premium')">
+              <button
+                id="submit"
+                onClick="createSubscription('REPLACE_THIS_STRING_WITH_PLAN_ID')"
+              >
                 <div class="hidden" id="spinner"></div>
                 <span id="button-text">Subscribe to premium</span>
               </button>

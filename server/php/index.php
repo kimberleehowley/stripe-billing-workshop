@@ -23,6 +23,8 @@ $container['logger'] = function ($c) {
   return $logger;
 };
 $app->add(function ($request, $response, $next) {
+  # Step 2: [Set up Stripe]
+  # https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
     Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
     return $next($request, $response);
 });
@@ -39,34 +41,18 @@ $app->get('/public-key', function (Request $request, Response $response, array $
   return $response->withJson(array('publicKey' => $pub_key));
 });
 
-$app->post('/create-customer', function (Request $request, Response $response, array $args) {  
-  $plan_id = getenv('SUBSCRIPTION_PLAN_ID');
-  $body = json_decode($request->getBody());
-  
-  # This creates a new Customer and attaches the PaymentMethod in one API call.
-  # At this point, associate the ID of the Customer object with your
-  # own internal representation of a customer, if you have one. 
-  $customer = \Stripe\Customer::create([
-    "payment_method" => $body->payment_method,
-    "email" => $body->email, 
-    "invoice_settings" => [
-      "default_payment_method" => $body->payment_method
-    ]
-  ]);
+// Step 5 implement a create-customer POST API
+// 	that returns the customer object
+// 	the client will pass in
+// 	{ payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
+// 	[Create a customer with a PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 
-  $subscription = \Stripe\Subscription::create([
-    "customer" => $customer['id'],
-    "items" => [
-      [
-        "plan" => $plan_id,
-      ],
-    ], 
-    "expand" => ['latest_invoice.payment_intent']
-  ]);
-
-
-  return $response->withJson($subscription);
-});
+// 	Step 6 implement a `create-subscription` POST API
+// 	that returns a created subscription object
+// 	the client will pass in
+// 	{ planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+// 	[Create the subscription]
+// 	(https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 
 $app->post('/subscription', function (Request $request, Response $response, array $args) {  
   $body = json_decode($request->getBody());

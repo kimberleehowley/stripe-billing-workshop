@@ -3,6 +3,8 @@ require 'sinatra'
 require 'dotenv'
 
 Dotenv.load(File.dirname(__FILE__) + '/../../.env')
+# Step 2: [Set up Stripe]
+# https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
 set :static, true
@@ -22,33 +24,18 @@ get '/public-key' do
   }.to_json
 end
 
-post '/create-customer' do
-  content_type 'application/json'
-  data = JSON.parse request.body.read
+# Step 5 implement a create-customer POST API
+# that returns the customer object
+# the client will pass in
+# { payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
+# [Create a customer with a PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 
-  # This creates a new Customer and attaches the PaymentMethod in one API call.
-  # At this point, associate the ID of the Customer object with your
-  # own internal representation of a customer, if you have one. 
-  customer = Stripe::Customer.create(
-    payment_method: data['payment_method'],
-    email: data['email'],
-    invoice_settings: {
-      default_payment_method: data['payment_method']
-    }
-  )
-
-  subscription = Stripe::Subscription.create(
-    customer: customer.id,
-    items: [
-      {
-        plan: ENV['SUBSCRIPTION_PLAN_ID']
-      }
-    ],
-    expand: ['latest_invoice.payment_intent']
-  )
-
-  subscription.to_json
-end
+# Step 6 implement a `create-subscription` POST API
+# that returns a created subscription object
+# the client will pass in
+# { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+# [Create the subscription]
+# (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 
 post '/subscription' do
   content_type 'application/json'

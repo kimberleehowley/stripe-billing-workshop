@@ -2,24 +2,19 @@ package com.stripe.sample;
 
 import static spark.Spark.get;
 import static spark.Spark.port;
-import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
-import com.stripe.model.Customer;
-import com.stripe.model.Event;
 import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.StripeObject;
-import com.stripe.model.Subscription;
 import com.stripe.net.Webhook;
+import com.stripe.sample.Server.CreateSubscriptionBody;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -55,7 +50,9 @@ public class Server {
         String ENV_PATH = "../../";
         Dotenv dotenv = Dotenv.configure().directory(ENV_PATH).load();
 
-        Stripe.apiKey = System.getenv("STRIPE_SECRET_KEY");
+        // Step 2: [Set up Stripe]
+        // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
+        Stripe.apiKey = dotenv.get("STRIPE_SECRET_KEY");
 
         staticFiles.externalLocation(
                 Paths.get(Paths.get("").toAbsolutePath().toString(), dotenv.get("STATIC_DIR")).normalize().toString());
@@ -67,36 +64,19 @@ public class Server {
             return publicKey.toString();
         });
 
-        post("/create-customer", (request, response) -> {
-            response.type("application/json");
+        // Step 5 implement a create-customer POST API
+        // that returns the customer object
+        // the client will pass in
+        // { payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
+        // [Create a customer with a
+        // PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 
-            CreatePaymentBody postBody = gson.fromJson(request.body(), CreatePaymentBody.class);
-            // This creates a new Customer and attaches the PaymentMethod in one API call.
-            Map<String, Object> customerParams = new HashMap<String, Object>();
-            customerParams.put("payment_method", postBody.getPaymentMethod());
-            customerParams.put("email", postBody.getEmail());
-            Map<String, String> invoiceSettings = new HashMap<String, String>();
-            invoiceSettings.put("default_payment_method", postBody.getPaymentMethod());
-            customerParams.put("invoice_settings", invoiceSettings);
-
-            Customer customer = Customer.create(customerParams);
-
-            // Subscribe customer to a plan
-            Map<String, Object> item = new HashMap<>();
-            item.put("plan", dotenv.get("SUBSCRIPTION_PLAN_ID"));
-            Map<String, Object> items = new HashMap<>();
-            items.put("0", item);
-
-            Map<String, Object> expand = new HashMap<>();
-            expand.put("0", "latest_invoice.payment_intent");
-            Map<String, Object> params = new HashMap<>();
-            params.put("customer", customer.getId());
-            params.put("items", items);
-            params.put("expand", expand);
-            Subscription subscription = Subscription.create(params);
-
-            return subscription.toJson();
-        });
+        // Step 6 implement a `create-subscription` POST API
+        // that returns a created subscription object
+        // the client will pass in
+        // { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+        // [Create the subscription]
+        // (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 
         post("/subscription", (request, response) -> {
             response.type("application/json");

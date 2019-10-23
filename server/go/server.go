@@ -12,7 +12,6 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/webhook"
 )
@@ -51,6 +50,8 @@ func main() {
 
 	fmt.Println(os.Getenv("STRIPE_SECRET_KEY"))
 
+	// Step 2: [Set up Stripe]
+	// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
 	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
 	e := echo.New()
 	e.Use(middleware.Logger())
@@ -67,46 +68,18 @@ func main() {
 		return c.JSON(http.StatusOK, resp)
 	})
 
-	e.POST("/create-customer", func(c echo.Context) (err error) {
-		request := new(CreateCustomerData)
-		if err = c.Bind(request); err != nil {
-			fmt.Println("Failed to parse data for create-customer")
-		}
+	// Step 5 implement a create-customer POST API
+	// that returns the customer object
+	// the client will pass in
+	// { payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
+	// [Create a customer with a PaymentMethod](https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 
-		// This creates a new Customer and attaches the PaymentMethod in one API
-		// call.
-		customerParams := &stripe.CustomerParams{
-			PaymentMethod: stripe.String(request.PaymentMethodID),
-			Email:         stripe.String(request.Email),
-			InvoiceSettings: &stripe.CustomerInvoiceSettingsParams{
-				DefaultPaymentMethod: stripe.String(request.PaymentMethodID),
-			},
-		}
-		customer, _ := customer.New(customerParams)
-
-		return c.JSON(http.StatusOK, customer)
-	})
-
-	e.POST("/create-subscription", func(c echo.Context) (err error) {
-		request := new(CreateSubscriptionData)
-		if err = c.Bind(request); err != nil {
-			fmt.Println("Failed to parse data for create-subscription")
-		}
-
-		items := []*stripe.SubscriptionItemsParams{
-			{
-				Plan: stripe.String(request.PlanId),
-			},
-		}
-		params := &stripe.SubscriptionParams{
-			Customer: stripe.String(request.CustomerId),
-			Items:    items,
-		}
-		params.AddExpand("latest_invoice.payment_intent")
-		subscription, _ := sub.New(params)
-
-		return c.JSON(http.StatusOK, subscription)
-	})
+	// Step 6 implement a `create-subscription` POST API
+	// that returns a created subscription object
+	// the client will pass in
+	// { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+	// [Create the subscription]
+	// (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 
 	e.POST("/subscription", func(c echo.Context) (err error) {
 		request := new(GetSubscriptionData)
