@@ -39,6 +39,8 @@ $app->get('/public-key', function (Request $request, Response $response, array $
   return $response->withJson(array('publicKey' => $pub_key));
 });
 
+// Step 5: [Create a customer with a PaymentMethod]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 $app->post('/create-customer', function (Request $request, Response $response, array $args) {  
   $body = json_decode($request->getBody());
   
@@ -56,6 +58,8 @@ $app->post('/create-customer', function (Request $request, Response $response, a
   return $response->withJson($customer);
 });
 
+// Step 6: [Create the subscription]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription
 $app->post('/create-subscription', function (Request $request, Response $response, array $args) {  
   $body = json_decode($request->getBody());
   

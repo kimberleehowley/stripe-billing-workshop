@@ -15,6 +15,8 @@ from dotenv import load_dotenv, find_dotenv
 
 # Setup Stripe python client library
 load_dotenv(find_dotenv())
+# Step 2: [Set up Stripe]
+# https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 stripe.api_version = os.getenv('STRIPE_API_VERSION')
 
@@ -31,6 +33,8 @@ def get_index():
 def get_public_key():
     return jsonify(publicKey=os.getenv('STRIPE_PUBLIC_KEY'))
 
+# Step 5: [Create a customer with a PaymentMethod]
+# https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 @app.route('/create-customer', methods=['POST'])
 def create_customer():
     # Reads application/json and returns a response
@@ -52,6 +56,8 @@ def create_customer():
     except Exception as e:
         return jsonify(e), 403
 
+# Step 6: [Create the subscription]
+# https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription
 @app.route('/create-subscription', methods=['POST'])
 def create_subscription():
     # Reads application/json and returns a response

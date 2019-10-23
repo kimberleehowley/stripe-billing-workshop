@@ -5,6 +5,8 @@ require 'dotenv'
 # Replace if using a different env file or config
 ENV_PATH = '/../../.env'.freeze
 Dotenv.load(File.dirname(__FILE__) + ENV_PATH)
+# Step 2: [Set up Stripe]
+# https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
 
@@ -25,6 +27,8 @@ get '/public-key' do
   }.to_json
 end
 
+# Step 5: [Create a customer with a PaymentMethod]
+# (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer)
 post '/create-customer' do
   content_type 'application/json'
   data = JSON.parse request.body.read
@@ -43,10 +47,8 @@ post '/create-customer' do
 end
 
 
-# Step #6 implement a create-subscription POST API
-# that returns a created subscription object
-# the client will pass in
-# { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+# Step 6: [Create the subscription]
+# (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription)
 post '/create-subscription' do
   content_type 'application/json'
   data = JSON.parse request.body.read

@@ -1,7 +1,8 @@
 var stripe;
 
 var stripeElements = function(publicKey) {
-  // Step #3 Collect card details
+  // Step 3: [Collect card details 💳]
+  // (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#one-time)
   stripe = Stripe(publicKey);
   var elements = stripe.elements();
 
@@ -53,7 +54,8 @@ function handlePaymentMethodError(error) {
 }
 
 var createCustomerAndPaymentMethod = function(stripe, card) {
-  // Step #4 Create payment method
+  // Step 4: [Create a payment method]
+  // (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#payment-method)
   changeLoadingState(true);
   var cardholderEmail = document.querySelector('#email').value;
   stripe
@@ -74,7 +76,8 @@ var createCustomerAndPaymentMethod = function(stripe, card) {
     });
 };
 
-// Step #5 Create a customer with the payment method
+// Step 5: [Create a customer with a PaymentMethod]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 function createCustomer(paymentMethod, cardholderEmail) {
   return fetch('/create-customer', {
     method: 'post',
@@ -117,11 +120,9 @@ function createSubscription(planId) {
     });
 }
 
-// Step #7 Handle subscription status
-// then confirmSubscription(subscription.id)
-// else orderComplete(subscription)
+// Step 7: [Manage subscription status]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#manage-sub-status
 function handleSubscription(subscription) {
-  // Step #7
   // add confirmSubscription(subscription.id)
   // confirmSubscription retreives the latest subscription
   // and returns it to view after 3DS secure has been handled

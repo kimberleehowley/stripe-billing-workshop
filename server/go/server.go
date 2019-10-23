@@ -51,6 +51,8 @@ func main() {
 
 	fmt.Println(os.Getenv("STRIPE_SECRET_KEY"))
 
+	// Step 2: [Set up Stripe]
+	// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
 	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
 	e := echo.New()
 	e.Use(middleware.Logger())
@@ -67,6 +69,8 @@ func main() {
 		return c.JSON(http.StatusOK, resp)
 	})
 
+	// Step 5: [Create a customer with a PaymentMethod]
+	// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 	e.POST("/create-customer", func(c echo.Context) (err error) {
 		request := new(CreateCustomerData)
 		if err = c.Bind(request); err != nil {
@@ -87,6 +91,8 @@ func main() {
 		return c.JSON(http.StatusOK, customer)
 	})
 
+	// Step 6: [Create the subscription]
+	// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription
 	e.POST("/create-subscription", func(c echo.Context) (err error) {
 		request := new(CreateSubscriptionData)
 		if err = c.Bind(request); err != nil {

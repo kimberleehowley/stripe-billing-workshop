@@ -5,6 +5,8 @@ const { resolve } = require('path');
 const ENV_PATH = '../../.env';
 const envPath = resolve(ENV_PATH);
 const env = require('dotenv').config({ path: envPath });
+// Step 2: [Set up Stripe]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 app.use(express.static(process.env.STATIC_DIR));
@@ -30,12 +32,9 @@ app.get('/public-key', (req, res) => {
   res.send({ publicKey: process.env.STRIPE_PUBLIC_KEY });
 });
 
-// Step #5 implement a create-customer POST API
-// that returns the customer object
-// the client will pass in
-// { payment_method: pm_1FU2bgBF6ERF9jhEQvwnA7sX, }
+// Step 5: [Create a customer with a PaymentMethod]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
 app.post('/create-customer', async (req, res) => {
-  // Add Step # 5 code here
   const customer = await stripe.customers.create({
     payment_method: req.body.payment_method,
     email: req.body.email,
@@ -47,10 +46,8 @@ app.post('/create-customer', async (req, res) => {
   res.send(customer);
 });
 
-// Step #6 implement a create-subscription POST API
-// that returns a created subscription object
-// the client will pass in
-// { planId: plan_G0FvDp6vZvdwRZ, customerId: cus_Frf3x0oGDgU1eg }
+// Step 6: [Create the subscription]
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription
 app.post('/create-subscription', async (req, res) => {
   const subscription = await stripe.subscriptions.create({
     customer: req.body.customerId,

@@ -70,6 +70,8 @@ public class Server {
         String ENV_PATH = "../../";
         Dotenv dotenv = Dotenv.configure().directory(ENV_PATH).load();
 
+        // Step 2: [Set up Stripe]
+        // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#setup
         Stripe.apiKey = dotenv.get("STRIPE_SECRET_KEY");
 
         staticFiles.externalLocation(
@@ -82,6 +84,8 @@ public class Server {
             return publicKey.toString();
         });
 
+        // Step 5: [Create a customer with a PaymentMethod]
+        // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-customer
         post("/create-customer", (request, response) -> {
             response.type("application/json");
 
@@ -99,6 +103,8 @@ public class Server {
             return customer.toJson();
         });
 
+        // Step 6: [Create the subscription]
+        // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#create-subscription
         post("/create-subscription", (request, response) -> {
             response.type("application/json");
 
