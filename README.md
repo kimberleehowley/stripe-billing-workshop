@@ -2,7 +2,7 @@
 
 This workshop is designed to get developers started on Stripe Billing. During the workshop, we’ll build a sample web application, create a flat-rate subscription, and setup payment details for recurring billing.  
 
-  
+If you are looking for an overview of the workshop, check the [slides here](https://github.com/ctrudeau-stripe/stripe-billing-workshop/blob/workshop-answers/Developer%20Workshop%20-%20Stripe%20Billing.pdf)
 
 ## Pre-requisites: 
 1. If you don’t have one, [create a Stripe account](https://dashboard.stripe.com/register)
