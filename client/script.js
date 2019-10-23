@@ -2,7 +2,7 @@ var stripe;
 
 // Step 3
 // [Collect card details 💳]
-// (https://stripe.com/docs/billing/subscriptions/creating-subscriptions#one-time)
+// https://stripe.com/docs/billing/subscriptions/creating-subscriptions#one-time
 var stripeElements = function(publicKey) {
   // Step #3 Collect card details
   stripe = Stripe(publicKey);
@@ -94,7 +94,6 @@ function createCustomer(paymentMethod, cardholderEmail) {
     })
     .then(customer => {
       window.location.href = '/plans.html?customerId=' + customer.id;
-      // handleSubscription(customer);
     });
 }
 
@@ -121,34 +120,12 @@ function createSubscription(planId) {
 }
 
 // Step 7 Handle subscription status
-// use confirmSubscription(subscription.id) once the subscription is handled
-// otherwise call orderComplete(subscription) to display the subscription result
+// use confirmSubscription(subscription.id) to show a success message to your customer
+// use orderComplete(subscription) for no additional information
 // [Manage subscription status]
 // https://stripe.com/docs/billing/subscriptions/creating-subscriptions#manage-sub-status
 function handleSubscription(subscription) {
-  const { latest_invoice } = subscription;
-  const { payment_intent } = latest_invoice;
-  if (payment_intent) {
-    const { client_secret, status } = payment_intent;
-
-    if (status === 'requires_action') {
-      stripe.handleCardPayment(client_secret).then(function(result) {
-        if (result.error) {
-          // Display error message in your UI.
-          // The card was declined (i.e. insufficient funds, card has expired, etc)
-        } else {
-          // Show a success message to your customer
-          confirmSubscription(subscription.id);
-        }
-      });
-    } else {
-      // No additional information was needed
-      // Show a success message to your customer
-      orderComplete(subscription);
-    }
-  } else {
-    orderComplete(subscription);
-  }
+  // step 7 here
 }
 
 function confirmSubscription(subscriptionId) {
