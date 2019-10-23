@@ -1,6 +1,6 @@
 # Stripe Billing Workshop creating subsciptions
 
-This workshop is designed to get developers started on Stripe Billing. During the workshop, we’ll build a sample web application, create a flat-rate subscription, and setup payment details for recurring billing.  
+This workshop is designed to get developers started on Stripe Billing. During the workshop, we’ll build a sample web application, create a subscription, and setup payment details for recurring billing.  
 
 If you are looking for an overview of the workshop, check the [slides here](https://github.com/ctrudeau-stripe/stripe-billing-workshop/blob/workshop-answers/Developer%20Workshop%20-%20Stripe%20Billing.pdf)
 
@@ -46,6 +46,18 @@ You will need a Stripe account with its own set of [API keys](https://stripe.com
 ## Feedback
 
 Please send us your feedback on the workshop, email Developer Relations dev-relations@stripe.com with your suggestion.
+
+## Resources 
+
+Now that you’ve learned the basics, see what else you can do with the Stripe Billing API. 
+
+- [Upgrading and Downgrading Plans](https://stripe.com/docs/billing/subscriptions/upgrading-downgrading)
+- [Using Trial Periods on Subscriptions](https://stripe.com/docs/billing/subscriptions/trials)
+- [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts)
+- [Setting the Subscription Billing Cycle Date](https://stripe.com/docs/billing/subscriptions/billing-cycle)
+- [Using Webhooks with Subscriptions](https://stripe.com/docs/billing/webhooks)
+- [Testing Stripe Billing](https://stripe.com/docs/billing/testing)
+- [Stripe Samples](https://github.com/stripe-samples)
 
 ## Author(s)
 
